@@ -1,0 +1,17 @@
+# Settings
+
+`Ctrl ,` opens the settings. They belong to the app, not to a folder.
+
+```{figure} ../_static/screens/settings.webp
+:alt: The settings tab with font size, theme and extensions
+
+Settings open as a tab.
+```
+
+| Setting | Values |
+|---|---|
+| Font size | 10–20 px, default 13 |
+| Theme | system, light, dark |
+| Extensions | the folders of the installed extensions – see [Extensions](../extensions.md) |
+
+Changes to the extensions apply after a restart.

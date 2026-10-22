@@ -1,0 +1,23 @@
+# Roadmap
+
+## Available (prototype)
+
+| | Content |
+|---|---|
+| Views | files, changes, concepts; tabs; views per file type; right panel with metadata, link graph and warnings |
+| Claude | MCP server with `get_view`, `open_file`, `show_changes`, `show_diff`, `open_folder`; first agent action |
+| Extensions | interface v0; first extension: deciwa |
+
+## Next
+
+- Agent actions: more actions from the app into Claude Code, other agents later.
+- Further folders in the change view ({need}`Q_CHANGE_FOLDERS`).
+- Changed frontmatter in the right panel ({need}`Q_FRONTMATTER_DIFF`).
+
+## Later
+
+- Installers for Linux, Windows and macOS, auto-update, code signing.
+- Editing Markdown in the app.
+- Server mode: the same core as a server, the same UI in the browser, for
+  teams.
+- A chat with the agent inside the app.

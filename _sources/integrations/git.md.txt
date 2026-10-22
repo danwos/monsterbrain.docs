@@ -1,0 +1,10 @@
+# Git
+
+Git supplies everything monsterbrain knows about changes: which files changed
+since a point, their diffs, and the date of their last commit (for the
+`updated` warning). monsterbrain only reads; it never commits, stages or
+changes the repository.
+
+A folder that is not a Git repository opens as well – just without changes.
+Whether such folders should show changes by modification date is open:
+{need}`Q_NON_GIT_FOLDERS`.

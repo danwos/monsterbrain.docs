@@ -1,0 +1,44 @@
+# Claude Code
+
+## MCP – Claude steers the window
+
+While the app runs it serves MCP at `http://127.0.0.1:4340/mcp` (Streamable
+HTTP, local only; another port via `MB_MCP_PORT`). Register it once:
+
+```console
+$ claude mcp add --scope user --transport http monsterbrain http://127.0.0.1:4340/mcp
+```
+
+| Tool | Does |
+|---|---|
+| `get_view` | folder, mode, active file, open tabs, view, selected text |
+| `open_file` | open a file (preview tab, or its own tab with `new_tab`), optional view and a passage to highlight |
+| `show_changes` | switch to the change view, return the changed files |
+| `show_diff` | open the diff of one file |
+| `open_folder` | open another folder |
+
+Extensions add tools (deciwa: `deciwa_feedback`, `deciwa_show`). If the app
+is not running, Claude Code reports the server as not connected.
+
+## Agent actions – the window hands work to Claude
+
+Actions reach a running Claude Code session through Claude Code channels
+(research preview). Start that session in a terminal, in the folder Claude
+works in:
+
+```console
+$ scripts/claude-channel.sh
+```
+
+Claude Code starts `resources/channel.mjs`, which holds `GET /channel` on the
+app's port open and passes every action on. The session whose folder
+contains the open folder (or lies inside it) gets the action – the last
+started one if several do. Channels only work in interactive sessions, not
+with `-p` or the Agent SDK.
+
+`Ctrl Shift A` sends "explain this file" (with the selected text).
+Extensions add their own actions – deciwa: *Inform Claude* next to the
+review switch. Actions are only ever started by a click or key. If no
+session listens for the open folder, monsterbrain offers *Start Claude
+here*: it opens a terminal in the folder with the script above (Linux for
+now), and the action waits up to two minutes for that session.

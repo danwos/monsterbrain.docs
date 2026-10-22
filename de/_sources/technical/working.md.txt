@@ -1,0 +1,35 @@
+# Working on monsterbrain
+
+## The docs are the truth
+
+These docs are the single source of truth for everyone who develops
+monsterbrain. Decisions are requirements: every feature and every piece of
+code must fit them. Each statement that needs a decision is a Sphinx-Needs
+object with an id and a status.
+
+| Object | Prefix | Status | Meaning |
+|---|---|---|---|
+| Decision | `DEC_` | `approved` | decided by Daniel – binding |
+| Proposal | `PROP_` | `draft` → `review` → `approved` / `rejected` | part of the technical details, not binding yet |
+| Question | `Q_` | `open` → `answered` | someone has to decide something – see [Open questions](questions.md) |
+
+An approved proposal becomes a decision: it gets a `DEC_` object in
+[Decisions](../decisions/index.md), and the technical page links to it.
+
+## Building the docs
+
+The docs are Markdown (MyST) in `docs/`, built with Sphinx. Their Python
+tools live in `docs/pyproject.toml`, apart from the app.
+
+```console
+$ cd docs && uv sync
+$ .venv/bin/sphinx-autobuild . _build/html --port 4341   # live preview
+$ .venv/bin/sphinx-build -W -b html . _build/html        # CI build, warnings fail
+```
+
+## Published docs
+
+`.github/workflows/docs.yml` checks the docs (warnings fail) on every push
+and pull request. Started by hand, it publishes them to the `gh-pages` branch
+of the public repository `danwos/monsterbrain.docs`, served at
+<https://monsterbrain.danwos.dev>. The code here stays private.

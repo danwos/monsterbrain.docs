@@ -1,0 +1,48 @@
+# Open questions
+
+Everything that waits for a decision. An answered question becomes
+`answered`; what it decides gets a decision in
+[Decisions](../decisions/index.md).
+
+```{needtable}
+:types: question
+:columns: id, title, status, to, docname as "page"
+:sort: status
+:style: table
+```
+
+```{question} Which folders besides the open one belong in the change view, and where is that list kept – in the app settings or in a file in the folder?
+:id: Q_CHANGE_FOLDERS
+:status: open
+:to: Daniel
+```
+
+```{question} Folders that are not Git repositories – show changes by modification date only, or leave them out?
+:id: Q_NON_GIT_FOLDERS
+:status: open
+:to: Daniel
+```
+
+```{question} Files ignored by Git (build folders, personal raw data) – show, dim or hide them in the tree?
+:id: Q_IGNORED_FILES
+:status: open
+:to: Daniel
+```
+
+```{question} Changed frontmatter is not visible in the rendered diff – show the changed keys in the right panel?
+:id: Q_FRONTMATTER_DIFF
+:status: open
+:to: Daniel
+```
+
+```{question} Do Claude Code channels reach a session in the Code tab of the Claude desktop app, or only the CLI?
+:id: Q_CHANNEL_DESKTOP
+:status: open
+:to: Daniel
+```
+
+```{question} Agent actions as files in the knowledge folder (one Markdown file per action, frontmatter = fields, body = prompt) – wanted, and part of the shareable brain setup?
+:id: Q_ACTIONS_AS_FILES
+:status: open
+:to: Daniel
+```

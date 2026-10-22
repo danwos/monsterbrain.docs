@@ -1,0 +1,25 @@
+# Keys
+
+monsterbrain is built for the keyboard. `F1` or `?` shows the keys in the app,
+including those of the installed extensions.
+
+```{figure} ../_static/screens/help.webp
+:alt: The help dialog with the keys
+
+The help dialog (`F1`).
+```
+
+| Key | Action |
+|---|---|
+| `Ctrl 1` / `Ctrl 2` / `Ctrl 3` | files / changes / concepts |
+| `Ctrl K` | search files |
+| `j` `k` / `↓` `↑` | next / previous file (in changes: next change) |
+| `V` `S` `D` | view / source / diff |
+| `Alt ←` | back |
+| `Ctrl` click | open in a new tab |
+| `Enter` | keep the preview tab |
+| `Ctrl Tab` | next tab (with `Shift`: previous) |
+| `Ctrl W` | close tab |
+| `Ctrl ,` | settings |
+| `Ctrl Shift A` | hand the file to Claude |
+| `F1` / `?` | help |

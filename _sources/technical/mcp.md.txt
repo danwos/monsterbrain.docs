@@ -1,0 +1,16 @@
+# MCP and channel
+
+## MCP server
+
+`src/main/mcp.ts` serves MCP over Streamable HTTP at
+`http://127.0.0.1:4340/mcp` – local only, port via `MB_MCP_PORT`. The tools
+act on the window through the same state the UI uses; the user-facing list is
+in [Claude Code](../integrations/claude-code.md). Extensions register further
+tools; their description names the extension.
+
+## Channel for agent actions
+
+`src/main/channel.ts` keeps `GET /channel` on the same port open for
+`resources/channel.mjs`, which Claude Code starts over stdio as a channel
+server. An action from the app goes to the session whose folder contains the
+open folder (or lies inside it), the last started one if several match.

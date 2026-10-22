@@ -1,0 +1,14 @@
+# Concepts
+
+`Ctrl 3` lists the folder's concepts by title – open ones above closed ones,
+newest first. Each concept shows its folder and the files its frontmatter
+names under `results:`, so you see at a glance what a piece of work produced,
+also outside its own folder.
+
+```{figure} ../_static/screens/concepts.webp
+:alt: The concepts view: open and closed concepts, one opened with its results
+
+An open concept with the files it produced; closed concepts below.
+```
+
+Where concepts live and what `results:` holds: [Your folder](folders.md#conventions-it-understands).

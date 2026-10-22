@@ -1,0 +1,115 @@
+# All decisions
+
+Product and technical decisions on monsterbrain. All decided by Daniel; they
+are binding requirements for every feature and every piece of code. Business
+decisions (licence, market, distribution) are kept outside this repository.
+
+A new decision comes from an approved proposal in the technical details – see
+[Working on monsterbrain](../technical/working.md).
+
+```{needtable}
+:types: dec
+:columns: id, title, decided
+:sort: decided
+:style: table
+```
+
+## Product
+
+```{dec} A desktop app, not a server started by hand
+:id: DEC_DESKTOP_APP
+:status: approved
+:decided: 2026-10-20
+:reason: The app starts, watches and stops whatever it needs internally; no console.
+:alternatives: a local server opened in the browser.
+```
+
+```{dec} Layout: tree left, content in the middle, metadata right
+:id: DEC_LAYOUT
+:status: approved
+:decided: 2026-10-20
+:reason: As in the viewer mockup, with the danwos tool branding.
+```
+
+```{dec} The folder structure stays unchanged – monsterbrain reads it and imposes none
+:id: DEC_STRUCTURE_UNCHANGED
+:status: approved
+:decided: 2026-10-20
+:reason: The folder belongs to its user and their agents; the app adapts to it.
+```
+
+```{dec} The change view works on folders; Git supplies changes where a folder is a repository
+:id: DEC_CHANGES_ON_FOLDERS
+:status: approved
+:decided: 2026-10-20
+:reason: The knowledge folder and the code repositories next to it are watched the same way.
+:alternatives: the knowledge folder only.
+```
+
+```{dec} monsterbrain keeps no state about user interactions
+:id: DEC_NO_INTERACTION_STATE
+:status: approved
+:decided: 2026-10-20
+:reason: Seen, read and done are review state – a deciwa feature that comes with the deciwa extension.
+:alternatives: an own "seen" state in the app.
+```
+
+```{dec} Claude controls the app through a local MCP server; a chat inside the app comes later
+:id: DEC_CLAUDE_MCP
+:status: approved
+:decided: 2026-10-20
+:reason: The most for the least effort, one chat place, works with every MCP-capable agent, no API key in the app.
+:alternatives: a chat panel inside the app (embedded terminal or Agent SDK).
+```
+
+## Agent actions
+
+```{dec} Agent actions go to the running Claude Code session
+:id: DEC_AGENT_RUNNING_SESSION
+:status: approved
+:decided: 2026-10-22
+:reason: You and Claude work on the result together, with the chat context of the session.
+:alternatives: a new background session per action, MCP prompts as slash commands, copying the prompt.
+```
+
+```{dec} Agent actions are only ever started by hand
+:id: DEC_AGENT_BY_HAND
+:status: approved
+:decided: 2026-10-22
+:reason: monsterbrain offers (button, key), the user decides; no event – e.g. a finished review – starts an agent.
+:alternatives: start the agent automatically when a review is finished.
+```
+
+```{dec} "Start Claude here" is enough to make agent actions simple
+:id: DEC_START_CLAUDE_HERE
+:status: approved
+:decided: 2026-10-22
+:reason: One click when no session listens; the start script and the channel flag stay hidden.
+:alternatives: a setup button with a short command, an embedded terminal in the app, a Claude Code plugin.
+```
+
+```{dec} Generic parts in monsterbrain, the review action in deciwa, no extra review state
+:id: DEC_AGENT_GENERIC
+:status: approved
+:decided: 2026-10-22
+:reason: monsterbrain knows sessions and concepts, deciwa knows the review; every review entry has a created time, so Claude finds what is new itself and deciwa keeps no per-user files.
+:alternatives: the action built into monsterbrain; deciwa storing when the agent was last informed.
+```
+
+## Technical
+
+```{dec} Electron with TypeScript
+:id: DEC_ELECTRON
+:status: approved
+:decided: 2026-10-20
+:reason: The same Chromium on every system, so HTML outputs look like in Chrome; Linux is stable; one language for UI and core.
+:alternatives: Tauri – much smaller download and RAM, but a different web engine per OS (WebKitGTK on Linux) and Rust as a second language.
+```
+
+```{dec} Two repositories: the app, and later the shareable brain setup
+:id: DEC_TWO_REPOS
+:status: approved
+:decided: 2026-10-20
+:reason: The setup (folder skeleton, AGENTS.md, templates, skills, example section) is shared on its own; the app is distributed later.
+:alternatives: one repository.
+```

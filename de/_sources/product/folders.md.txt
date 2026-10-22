@@ -1,0 +1,40 @@
+# Your folder
+
+monsterbrain works on any folder of files. It reads the folder as it is and
+imposes no structure ({need}`DEC_STRUCTURE_UNCHANGED`). Nothing is imported
+and nothing is stored besides the last opened folder and the settings – the
+files and Git are the truth.
+
+## What monsterbrain reads
+
+| What | Used for |
+|---|---|
+| Frontmatter (YAML at the top of a Markdown file) | the right panel: `summary`, `status`, `updated`, `tags`, `owner` |
+| Links between files | links and backlinks in the right panel, broken links as warnings |
+| Git | changed files in the tree and the change view, diffs, the date of the last change |
+| Concept folders | the concepts view (below) |
+
+Hidden files and installed dependencies (`node_modules` and the like) are
+never shown.
+
+## Conventions it understands
+
+monsterbrain grew out of a knowledge folder with a few conventions. They are
+optional – without them the matching features simply stay empty.
+
+- **Frontmatter with a `summary`** – a Markdown file without one gets a
+  warning. Folders for unchanged third-party material (`40_sources/`,
+  `50_assets/`) are not expected to have frontmatter.
+- **`updated`** – a date older than the last change in Git gets a warning.
+- **`[CHECK]` markers** – open questions in a text are counted as warnings
+  (replaced by deciwa questions once the deciwa extension is installed).
+- **Concepts** – open concepts in `<area>/10_concepts/<date>_<name>/concept.md`,
+  closed ones in `<area>/90_archive/concepts/`. Their frontmatter lists in
+  `results:` the files the concept produced; the concepts view shows them.
+
+
+```{figure} ../_static/screens/files-warnings.webp
+:alt: The right panel with warnings for a file
+
+What the conventions give you: links, backlinks and warnings in the right panel.
+```

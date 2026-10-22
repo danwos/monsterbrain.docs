@@ -1,0 +1,8 @@
+# Integration overview
+
+| Integration | What it adds | Status |
+|---|---|---|
+| [Claude Code](claude-code.md) | Claude steers the window; the window hands work to Claude | available |
+| [deciwa](deciwa.md) | review on the rendered file, state in the tree and the change view | available (extension) |
+| [Git](git.md) | changed files, diffs, the date of the last change | available |
+| Other agents | the same MCP tools for every MCP-capable agent | open to them, not tried yet |

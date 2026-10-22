@@ -1,0 +1,17 @@
+# deciwa
+
+[deciwa](https://deciwa.danwos.dev) is the danwos review tool. As a
+monsterbrain extension it adds:
+
+- **review on the rendered file** – Markdown, HTML, code and the new side of
+  a diff,
+- **state in the tree and the change view** – what is open, approved, stale
+  or frozen, and which questions wait for an answer,
+- **the feedback of the active file** in the right panel,
+- **questions instead of `[CHECK]` markers.**
+
+Review state – seen, approved, done – lives in deciwa, not in monsterbrain
+({need}`DEC_NO_INTERACTION_STATE`). Without the extension monsterbrain works
+as before, just without review.
+
+Setup and the review keys: [deciwa in monsterbrain](https://deciwa.danwos.dev/integrations/monsterbrain.html).
