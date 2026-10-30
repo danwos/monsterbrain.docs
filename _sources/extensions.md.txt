@@ -1,0 +1,118 @@
+# Extensions (interface v0)
+
+Unstable. Derived only from what the first extension, deciwa, needs; it
+changes with the next extension. No marketplace, no sandbox: an extension runs
+with full Node access in the main process, so monsterbrain loads only folders
+named in its settings (*Settings → Extensions*, stored in `settings.json`).
+
+```json
+"extensions": [
+  { "path": "/home/daniel/workspace/deciwa/packages/monsterbrain", "options": { "enginePath": "…" } }
+]
+```
+
+`options` is handed to the extension as is; `"enabled": false` keeps an entry
+without loading it. Changes apply after a restart (*Restart to apply*).
+
+## Manifest
+
+The extension folder has a `package.json` with a `monsterbrain` field:
+
+```json
+"monsterbrain": {
+  "id": "deciwa", "name": "deciwa", "api": 0,
+  "main": "dist/main.cjs",
+  "view": "dist/view.js",
+  "frame": "dist/frame.js"
+}
+```
+
+| Part | Runs in | Loaded |
+|---|---|---|
+| `main` | main process (Node, CommonJS) | `require()` at start, then `activate(ctx)`; `deactivate()` before the app quits (3 s at most) |
+| `view` | the window | as a script from `mb://ext/<id>/…` |
+| `frame` | rendered HTML pages (sandboxed frames) | added to the page when monsterbrain shows it (`mb://file/<page>?mbx`) |
+
+`api` must match the interface version (`EXTENSION_API` in
+`src/shared/extensions.ts`); monsterbrain refuses other versions.
+
+## Extension points
+
+| Point | Main process (`ctx`) | Window (`window.mbx.register(id, contribution)`) |
+|---|---|---|
+| background process | `ctx.onRoot(cb)` – called at once with the open folder and on every change; `deactivate()` on quit | – |
+| calls and events | `ctx.handle(method, fn)`, `ctx.emit(event, data)` | `channel.call(method, …args)`, `channel.on(event, cb)` |
+| view injection | – | `mountView(v)` for every rendered view; returns the cleanup |
+| panel section | – | `panel: { title, mount(el, {path, kind}) }` – a section in the right panel |
+| toolbar | – | `toolbar: { mount(el, {path, kind}) }` – an item in the head of the file, next to View / Source / Diff |
+| decorations | `ctx.decorate({path: {badge, color, title}})` | shown in the tree, the change view and search results |
+| commands | – | `commands: [{id, title, key, run}]` – keys run when nothing is typed into a field; listed in the help (F1) under the extension's name; without `run` only listed |
+| MCP tools | `ctx.tool({name, description, params, readOnly, run})` | – |
+| agent actions | `ctx.agent({action, prompt, meta})` – hands a request to the Claude Code session of the open folder; none listens → the user may start one, which gets it when ready. Returns `{sent, session, started}`. Only on a click or key of the user | – |
+| Claude button | `ctx.agentPrompt(action, fn)` – adds lines to the prompt of a built-in action of the Claude button (`concept_implement`, `concept_close`, `task_implement`, `task_close`, `task_discard`, `message`); `fn({path, concept})` returns them, or nothing | `claude: { watch({path, kind}, set) }` – the main entry of the button (its left part): call `set({label, title, enabled, run})` whenever it changes, `set(null)` for none |
+| children of side bar views | `ctx.children(view, provider)`, `ctx.childrenChanged(view)` – see below | – |
+| concepts | `ctx.concepts(path)` – the concepts a file belongs to: the one whose folder holds it first, then those listing it (or a folder above it) under `results:`; each with `folder`, `title`, `open`, `status`, `results`; a concept with `status: discarded` counts as closed | – |
+
+Also on `ctx`: `root()`, `open(path, {tab, highlight, newTab})`, `state()`,
+`log()`, `options`, `path`.
+
+### Views
+
+`mountView(v)` gets every rendered Markdown view, every code view (source with line numbers) and every JSON / YAML tree:
+
+| Field | |
+|---|---|
+| `path` | file path relative to the open folder |
+| `kind` | the file kind: `markdown`, `code`, `json`, `yaml`, `text`, … |
+| `role` | `view` (the file), `diff` (the new side of a diff), `before` (the old side, from Git) |
+| `rev` | the Git revision of the `before` side |
+| `mode` | `rendered` (Markdown as a reader sees it), `lines` (the code view; also the *Source* tab of a Markdown file) or `tree` (JSON and YAML) |
+| `element` | the content. `rendered`: every block carries `data-line` – its first source line in the file, 0-based, frontmatter counted (as in the VS Code Markdown preview). `lines`: a `<pre>` with one element per line, each with `data-line`; an extension may group lines into its own elements – a changed text gets a new `<pre>`. `tree`: carries `data-path`; every node, the root included, is a `div.jt-node` with `data-pointer` (its JSON Pointer after RFC 6901, `""` for the root; array items by index) and `data-line` (its first line, 0-based; for an object member the key's line); it holds its row and its children. Closed nodes stay in the DOM, only hidden – a changed text gets a new tree |
+| `scroller` | the element the content scrolls in (`position: relative`), for absolutely placed UI |
+| `reveal(node)` | `tree` only: opens every closed parent of `node` (and clears a filter that hides it), so it is visible – call it before showing a hidden node |
+
+A view is mounted again when its content changes. Keys an extension handles
+itself should call `preventDefault()`; monsterbrain then ignores them.
+
+### Children of side bar views
+
+A side bar view lists files; an extension can add children to each file node.
+Today one view takes them: `facts` (the files of `20_facts/`). monsterbrain
+draws the tree, counts and filters; the extension only says what the children
+are.
+
+```js
+ctx.children("facts", {
+  list: async (paths) => ({            // paths: the files the view shows
+    groups: [{ id: "approved", label: "approved", color: "#4D5E22" } /* , … */],
+    files: { "20_facts/company/founder.md": [
+      { id: "md:item:Founder#1", label: "Full name Daniel Woste.", context: "Career", line: 10, group: "approved" } /* , … */] },
+    marks: { "20_facts/company/founder.md": { badge: "✓", color: "#4D5E22", title: "approved as a whole" } },
+  }),
+  select: (path, id) => { /* … */ },          // after monsterbrain opened the file at the child's line
+  actions: [{ id: "approve-facts", title: "Approve all facts", key: "Shift+A",
+              confirm: "Approve {n} file(s)?", run: async (paths) => { /* … */ } }],
+})
+ctx.childrenChanged("facts")            // ask the providers again
+```
+
+| Field | |
+|---|---|
+| `groups` | the groups children are counted in, in order; the first one is the "done" share in `12 / 15` |
+| `files` | path → its children in file order; `line` is 1-based, frontmatter counted |
+| `marks` | path → a mark on the file itself |
+| `actions` | shown on file and folder nodes (on hover); `run` gets the files below the node; `key` runs it on the active file |
+
+monsterbrain also asks again on every file change while the view is shown.
+The selected child is part of `get_view` as `child`.
+
+### HTML pages
+
+HTML files are shown in a frame with `sandbox="allow-scripts allow-popups"`.
+monsterbrain marks every start tag with `data-line` (the line it starts on, 0-based)
+and adds a bridge before the frame scripts:
+`window.mbx.path` (the page's path), `window.mbx.call(id, method, …args)` and
+`window.mbx.on(id, event, cb)` – relayed by the window to the extension's
+main part. Any script of the page can send such calls, so they reach only
+handlers registered with `ctx.handle(method, fn, { frames: true })`. Only pages of the working tree get the scripts, not the old side
+of a diff.

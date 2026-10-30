@@ -1,0 +1,57 @@
+# Changes
+
+`Ctrl 2` lists everything that changed in the folder since a chosen point
+({need}`DEC_CHANGES_ON_FOLDERS`):
+
+| Since | Compares with |
+|---|---|
+| uncommitted | the last commit |
+| last change per file | files changed today, each with its own version before its last change |
+| today, this week, this month | the last commit before that date |
+
+**Last change per file** is for work that is committed step by step: the
+diff of a file shows its last step, however many commits on other files came
+after it. A file with uncommitted changes shows those. Outside the change
+view – in **Files** and **Concepts** – the **Diff** tab shows the same last
+change for every committed file.
+
+Changes are grouped by folder with counts. `j` and `k` (or `↓` `↑`) step to
+the next and previous change; each opens its diff.
+
+```{figure} ../_static/screens/changes-markdown.webp
+:alt: The change view with five changed files and the rendered diff of a Markdown file
+
+Changed files grouped by folder; a Markdown diff, rendered – **Side by side** and **Text** show it differently.
+```
+
+## Diffs rendered for the file type
+
+| Type | Diff |
+|---|---|
+| Markdown | rendered before and after, or text |
+| HTML | before and after side by side |
+| `.po` | the changed entries only |
+| Code, JSON, YAML | text |
+| Images, PDF | before and after side by side |
+
+```{figure} ../_static/screens/changes-html.webp
+:alt: The diff of an HTML page: before and after side by side
+
+An HTML page before and after the agent changed the price and the text.
+```
+
+```{figure} ../_static/screens/changes-po.webp
+:alt: The diff of a .po file showing only the changed entries
+
+A translation: only the entries that changed.
+```
+
+```{figure} ../_static/screens/changes-image.webp
+:alt: A new picture in the change view
+
+A new picture – there was nothing before.
+```
+
+Today the change view covers the open folder. Further folders (the code
+repositories next to a knowledge folder) are an open question:
+{need}`Q_CHANGE_FOLDERS`.

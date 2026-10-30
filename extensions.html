@@ -1,0 +1,634 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Extensions (interface v0)" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://monsterbrain.danwos.dev/extensions.html" />
+<meta property="og:site_name" content="monsterbrain" />
+<meta property="og:description" content="Unstable. Derived only from what the first extension, deciwa, needs; it changes with the next extension. No marketplace, no sandbox: an extension runs with full Node access in the main process, so ..." />
+<meta property="og:image" content="https://danwos.dev/og/en/tools/monsterbrain.png" />
+<meta property="og:image:alt" content="monsterbrain – danwos" />
+<meta name="description" content="Unstable. Derived only from what the first extension, deciwa, needs; it changes with the next extension. No marketplace, no sandbox: an extension runs with full Node access in the main process, so ..." />
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="en_US">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="All decisions" href="decisions/index.html"><link rel="prev" title="Git" href="integrations/git.html">
+        <link rel="canonical" href="https://monsterbrain.danwos.dev/extensions.html">
+        <link rel="prefetch" href="_static/monsterbrain.webp" as="image">
+
+    <link rel="shortcut icon" href="_static/logo.svg"><!-- Generated with Sphinx 9.1.1 and Furo 2025.12.19 -->
+        <title>Extensions (interface v0) - monsterbrain</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-data-viewer/jsonview.bundle.css?v=f6ef2277" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/common_css/need_core.css?v=f5b60a78" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/common_css/need_links.css?v=2150a916" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/common_css/need_style.css?v=92936fa5" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/common_css/need_toggle.css?v=5c6620df" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/common_css/needstable.css?v=7b67799e" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-needs/modern.css?v=c1bc121d" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="_static/danwos.css?v=da607049" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #0F766E;
+  --color-brand-content: #0F766E;
+  --color-brand-visited: #0F766E;
+  --color-background-primary: #FFFFFF;
+  --color-foreground-primary: #1B1A22;
+  --font-stack: Inter, system-ui, sans-serif;
+  --font-stack--monospace: 'JetBrains Mono', ui-monospace, monospace;
+  --font-stack--headings: 'Bricolage Grotesque', Inter, system-ui, sans-serif;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #14B8A6;
+  --color-brand-content: #14B8A6;
+  --color-brand-visited: #14B8A6;
+  --color-background-primary: #0D1B2A;
+  --color-background-secondary: #0A1622;
+  --color-foreground-primary: #E8EDF3;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  --color-brand-primary: #14B8A6;
+  --color-brand-content: #14B8A6;
+  --color-brand-visited: #14B8A6;
+  --color-background-primary: #0D1B2A;
+  --color-background-secondary: #0A1622;
+  --color-foreground-primary: #E8EDF3;
+  
+      }
+    }
+  }
+</style>
+
+<meta name="deciwa-source" content="docs/extensions.md">
+<link rel="alternate" hreflang="en" href="https://monsterbrain.danwos.dev/extensions.html">
+<link rel="alternate" hreflang="de" href="https://monsterbrain.danwos.dev/de/extensions.html">
+</head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">monsterbrain</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand centered dw-brand" href="index.html">
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/monsterbrain.webp" alt=""/>
+  </div>
+  <span class="dw-brand-name">monsterbrain</span>
+  <span class="dw-brand-slogan">a brain for you and your AI agents</span>
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div>
+<nav class="dw-languages" aria-label="Language">
+  <span aria-current="true" lang="en">English</span>
+  <a href="de/extensions.html" hreflang="de" lang="de">Deutsch</a>
+</nav><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Product</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">What monsterbrain is</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tour.html">Tour</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/install.html">Install and start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/folders.html">Your folder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/files.html">Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/backlog.html">Backlog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/changes.html">Changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/concepts.html">Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/facts.html">Facts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/claude.html">Working with Claude</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/keys.html">Keys</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="product/roadmap.html">Roadmap</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="integrations/index.html">Integration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrations/claude-code.html">Claude Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrations/deciwa.html">deciwa</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integrations/git.html">Git</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Extensions</span></p>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Extensions (interface v0)</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Decisions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="decisions/index.html">All decisions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Technical details</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="technical/index.html">Technical overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical/stack.html">Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical/core.html">Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical/bridge.html">Bridge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical/mcp.html">MCP and agent actions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical/dev-aids.html">Development aids</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical/working.html">Working on monsterbrain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="technical/questions.html">Open questions</a></li>
+</ul>
+
+</div></div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="extensions-interface-v0">
+<h1>Extensions (interface v0)<a class="headerlink" href="#extensions-interface-v0" title="Link to this heading">¶</a></h1>
+<p>Unstable. Derived only from what the first extension, deciwa, needs; it
+changes with the next extension. No marketplace, no sandbox: an extension runs
+with full Node access in the main process, so monsterbrain loads only folders
+named in its settings (<em>Settings → Extensions</em>, stored in <code class="docutils literal notranslate"><span class="pre">settings.json</span></code>).</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"extensions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/home/daniel/workspace/deciwa/packages/monsterbrain"</span><span class="p">,</span><span class="w"> </span><span class="nt">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"enginePath"</span><span class="p">:</span><span class="w"> </span><span class="s2">"…"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">options</span></code> is handed to the extension as is; <code class="docutils literal notranslate"><span class="pre">&quot;enabled&quot;:</span> <span class="pre">false</span></code> keeps an entry
+without loading it. Changes apply after a restart (<em>Restart to apply</em>).</p>
+<section id="manifest">
+<h2>Manifest<a class="headerlink" href="#manifest" title="Link to this heading">¶</a></h2>
+<p>The extension folder has a <code class="docutils literal notranslate"><span class="pre">package.json</span></code> with a <code class="docutils literal notranslate"><span class="pre">monsterbrain</span></code> field:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">"monsterbrain"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deciwa"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"deciwa"</span><span class="p">,</span><span class="w"> </span><span class="nt">"api"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"main"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dist/main.cjs"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"view"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dist/view.js"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"frame"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dist/frame.js"</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Part</p></th>
+<th class="head"><p>Runs in</p></th>
+<th class="head"><p>Loaded</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">main</span></code></p></td>
+<td><p>main process (Node, CommonJS)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">require()</span></code> at start, then <code class="docutils literal notranslate"><span class="pre">activate(ctx)</span></code>; <code class="docutils literal notranslate"><span class="pre">deactivate()</span></code> before the app quits (3 s at most)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">view</span></code></p></td>
+<td><p>the window</p></td>
+<td><p>as a script from <code class="docutils literal notranslate"><span class="pre">mb://ext/&lt;id&gt;/…</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">frame</span></code></p></td>
+<td><p>rendered HTML pages (sandboxed frames)</p></td>
+<td><p>added to the page when monsterbrain shows it (<code class="docutils literal notranslate"><span class="pre">mb://file/&lt;page&gt;?mbx</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">api</span></code> must match the interface version (<code class="docutils literal notranslate"><span class="pre">EXTENSION_API</span></code> in
+<code class="docutils literal notranslate"><span class="pre">src/shared/extensions.ts</span></code>); monsterbrain refuses other versions.</p>
+</section>
+<section id="extension-points">
+<h2>Extension points<a class="headerlink" href="#extension-points" title="Link to this heading">¶</a></h2>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Point</p></th>
+<th class="head"><p>Main process (<code class="docutils literal notranslate"><span class="pre">ctx</span></code>)</p></th>
+<th class="head"><p>Window (<code class="docutils literal notranslate"><span class="pre">window.mbx.register(id,</span> <span class="pre">contribution)</span></code>)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>background process</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ctx.onRoot(cb)</span></code> – called at once with the open folder and on every change; <code class="docutils literal notranslate"><span class="pre">deactivate()</span></code> on quit</p></td>
+<td><p>–</p></td>
+</tr>
+<tr class="row-odd"><td><p>calls and events</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ctx.handle(method,</span> <span class="pre">fn)</span></code>, <code class="docutils literal notranslate"><span class="pre">ctx.emit(event,</span> <span class="pre">data)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">channel.call(method,</span> <span class="pre">…args)</span></code>, <code class="docutils literal notranslate"><span class="pre">channel.on(event,</span> <span class="pre">cb)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>view injection</p></td>
+<td><p>–</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mountView(v)</span></code> for every rendered view; returns the cleanup</p></td>
+</tr>
+<tr class="row-odd"><td><p>panel section</p></td>
+<td><p>–</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">panel:</span> <span class="pre">{</span> <span class="pre">title,</span> <span class="pre">mount(el,</span> <span class="pre">{path,</span> <span class="pre">kind})</span> <span class="pre">}</span></code> – a section in the right panel</p></td>
+</tr>
+<tr class="row-even"><td><p>toolbar</p></td>
+<td><p>–</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">toolbar:</span> <span class="pre">{</span> <span class="pre">mount(el,</span> <span class="pre">{path,</span> <span class="pre">kind})</span> <span class="pre">}</span></code> – an item in the head of the file, next to View / Source / Diff</p></td>
+</tr>
+<tr class="row-odd"><td><p>decorations</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ctx.decorate({path:</span> <span class="pre">{badge,</span> <span class="pre">color,</span> <span class="pre">title}})</span></code></p></td>
+<td><p>shown in the tree, the change view and search results</p></td>
+</tr>
+<tr class="row-even"><td><p>commands</p></td>
+<td><p>–</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">commands:</span> <span class="pre">[{id,</span> <span class="pre">title,</span> <span class="pre">key,</span> <span class="pre">run}]</span></code> – keys run when nothing is typed into a field; listed in the help (F1) under the extension’s name; without <code class="docutils literal notranslate"><span class="pre">run</span></code> only listed</p></td>
+</tr>
+<tr class="row-odd"><td><p>MCP tools</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ctx.tool({name,</span> <span class="pre">description,</span> <span class="pre">params,</span> <span class="pre">readOnly,</span> <span class="pre">run})</span></code></p></td>
+<td><p>–</p></td>
+</tr>
+<tr class="row-even"><td><p>agent actions</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ctx.agent({action,</span> <span class="pre">prompt,</span> <span class="pre">meta})</span></code> – hands a request to the Claude Code session of the open folder; none listens → the user may start one, which gets it when ready. Returns <code class="docutils literal notranslate"><span class="pre">{sent,</span> <span class="pre">session,</span> <span class="pre">started}</span></code>. Only on a click or key of the user</p></td>
+<td><p>–</p></td>
+</tr>
+<tr class="row-odd"><td><p>Claude button</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ctx.agentPrompt(action,</span> <span class="pre">fn)</span></code> – adds lines to the prompt of a built-in action of the Claude button (<code class="docutils literal notranslate"><span class="pre">concept_implement</span></code>, <code class="docutils literal notranslate"><span class="pre">concept_close</span></code>, <code class="docutils literal notranslate"><span class="pre">task_implement</span></code>, <code class="docutils literal notranslate"><span class="pre">task_close</span></code>, <code class="docutils literal notranslate"><span class="pre">task_discard</span></code>, <code class="docutils literal notranslate"><span class="pre">message</span></code>); <code class="docutils literal notranslate"><span class="pre">fn({path,</span> <span class="pre">concept})</span></code> returns them, or nothing</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">claude:</span> <span class="pre">{</span> <span class="pre">watch({path,</span> <span class="pre">kind},</span> <span class="pre">set)</span> <span class="pre">}</span></code> – the main entry of the button (its left part): call <code class="docutils literal notranslate"><span class="pre">set({label,</span> <span class="pre">title,</span> <span class="pre">enabled,</span> <span class="pre">run})</span></code> whenever it changes, <code class="docutils literal notranslate"><span class="pre">set(null)</span></code> for none</p></td>
+</tr>
+<tr class="row-even"><td><p>children of side bar views</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ctx.children(view,</span> <span class="pre">provider)</span></code>, <code class="docutils literal notranslate"><span class="pre">ctx.childrenChanged(view)</span></code> – see below</p></td>
+<td><p>–</p></td>
+</tr>
+<tr class="row-odd"><td><p>concepts</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ctx.concepts(path)</span></code> – the concepts a file belongs to: the one whose folder holds it first, then those listing it (or a folder above it) under <code class="docutils literal notranslate"><span class="pre">results:</span></code>; each with <code class="docutils literal notranslate"><span class="pre">folder</span></code>, <code class="docutils literal notranslate"><span class="pre">title</span></code>, <code class="docutils literal notranslate"><span class="pre">open</span></code>, <code class="docutils literal notranslate"><span class="pre">status</span></code>, <code class="docutils literal notranslate"><span class="pre">results</span></code>; a concept with <code class="docutils literal notranslate"><span class="pre">status:</span> <span class="pre">discarded</span></code> counts as closed</p></td>
+<td><p>–</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Also on <code class="docutils literal notranslate"><span class="pre">ctx</span></code>: <code class="docutils literal notranslate"><span class="pre">root()</span></code>, <code class="docutils literal notranslate"><span class="pre">open(path,</span> <span class="pre">{tab,</span> <span class="pre">highlight,</span> <span class="pre">newTab})</span></code>, <code class="docutils literal notranslate"><span class="pre">state()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">log()</span></code>, <code class="docutils literal notranslate"><span class="pre">options</span></code>, <code class="docutils literal notranslate"><span class="pre">path</span></code>.</p>
+<section id="views">
+<h3>Views<a class="headerlink" href="#views" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">mountView(v)</span></code> gets every rendered Markdown view, every code view (source with line numbers) and every JSON / YAML tree:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">path</span></code></p></td>
+<td><p>file path relative to the open folder</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kind</span></code></p></td>
+<td><p>the file kind: <code class="docutils literal notranslate"><span class="pre">markdown</span></code>, <code class="docutils literal notranslate"><span class="pre">code</span></code>, <code class="docutils literal notranslate"><span class="pre">json</span></code>, <code class="docutils literal notranslate"><span class="pre">yaml</span></code>, <code class="docutils literal notranslate"><span class="pre">text</span></code>, …</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">role</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">view</span></code> (the file), <code class="docutils literal notranslate"><span class="pre">diff</span></code> (the new side of a diff), <code class="docutils literal notranslate"><span class="pre">before</span></code> (the old side, from Git)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rev</span></code></p></td>
+<td><p>the Git revision of the <code class="docutils literal notranslate"><span class="pre">before</span></code> side</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mode</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rendered</span></code> (Markdown as a reader sees it), <code class="docutils literal notranslate"><span class="pre">lines</span></code> (the code view; also the <em>Source</em> tab of a Markdown file) or <code class="docutils literal notranslate"><span class="pre">tree</span></code> (JSON and YAML)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">element</span></code></p></td>
+<td><p>the content. <code class="docutils literal notranslate"><span class="pre">rendered</span></code>: every block carries <code class="docutils literal notranslate"><span class="pre">data-line</span></code> – its first source line in the file, 0-based, frontmatter counted (as in the VS Code Markdown preview). <code class="docutils literal notranslate"><span class="pre">lines</span></code>: a <code class="docutils literal notranslate"><span class="pre">&lt;pre&gt;</span></code> with one element per line, each with <code class="docutils literal notranslate"><span class="pre">data-line</span></code>; an extension may group lines into its own elements – a changed text gets a new <code class="docutils literal notranslate"><span class="pre">&lt;pre&gt;</span></code>. <code class="docutils literal notranslate"><span class="pre">tree</span></code>: carries <code class="docutils literal notranslate"><span class="pre">data-path</span></code>; every node, the root included, is a <code class="docutils literal notranslate"><span class="pre">div.jt-node</span></code> with <code class="docutils literal notranslate"><span class="pre">data-pointer</span></code> (its JSON Pointer after RFC 6901, <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code> for the root; array items by index) and <code class="docutils literal notranslate"><span class="pre">data-line</span></code> (its first line, 0-based; for an object member the key’s line); it holds its row and its children. Closed nodes stay in the DOM, only hidden – a changed text gets a new tree</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scroller</span></code></p></td>
+<td><p>the element the content scrolls in (<code class="docutils literal notranslate"><span class="pre">position:</span> <span class="pre">relative</span></code>), for absolutely placed UI</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reveal(node)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">tree</span></code> only: opens every closed parent of <code class="docutils literal notranslate"><span class="pre">node</span></code> (and clears a filter that hides it), so it is visible – call it before showing a hidden node</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A view is mounted again when its content changes. Keys an extension handles
+itself should call <code class="docutils literal notranslate"><span class="pre">preventDefault()</span></code>; monsterbrain then ignores them.</p>
+</section>
+<section id="children-of-side-bar-views">
+<h3>Children of side bar views<a class="headerlink" href="#children-of-side-bar-views" title="Link to this heading">¶</a></h3>
+<p>A side bar view lists files; an extension can add children to each file node.
+Today one view takes them: <code class="docutils literal notranslate"><span class="pre">facts</span></code> (the files of <code class="docutils literal notranslate"><span class="pre">20_facts/</span></code>). monsterbrain
+draws the tree, counts and filters; the extension only says what the children
+are.</p>
+<div class="highlight-js notranslate"><div class="highlight"><pre><span></span><span class="nx">ctx</span><span class="p">.</span><span class="nx">children</span><span class="p">(</span><span class="s2">"facts"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">list</span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">paths</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span><span class="w">            </span><span class="c1">// paths: the files the view shows</span>
+<span class="w">    </span><span class="nx">groups</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s2">"approved"</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">"approved"</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#4D5E22"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="cm">/* , … */</span><span class="p">],</span>
+<span class="w">    </span><span class="nx">files</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"20_facts/company/founder.md"</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s2">"md:item:Founder#1"</span><span class="p">,</span><span class="w"> </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="s2">"Full name Daniel Woste."</span><span class="p">,</span><span class="w"> </span><span class="nx">context</span><span class="o">:</span><span class="w"> </span><span class="s2">"Career"</span><span class="p">,</span><span class="w"> </span><span class="nx">line</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="nx">group</span><span class="o">:</span><span class="w"> </span><span class="s2">"approved"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="cm">/* , … */</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">marks</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="s2">"20_facts/company/founder.md"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">badge</span><span class="o">:</span><span class="w"> </span><span class="s2">"✓"</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#4D5E22"</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s2">"approved as a whole"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">}),</span>
+<span class="w">  </span><span class="nx">select</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">path</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">},</span><span class="w">          </span><span class="c1">// after monsterbrain opened the file at the child's line</span>
+<span class="w">  </span><span class="nx">actions</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s2">"approve-facts"</span><span class="p">,</span><span class="w"> </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="s2">"Approve all facts"</span><span class="p">,</span><span class="w"> </span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="s2">"Shift+A"</span><span class="p">,</span>
+<span class="w">              </span><span class="nx">confirm</span><span class="o">:</span><span class="w"> </span><span class="s2">"Approve {n} file(s)?"</span><span class="p">,</span><span class="w"> </span><span class="nx">run</span><span class="o">:</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">paths</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* … */</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}],</span>
+<span class="p">})</span>
+<span class="nx">ctx</span><span class="p">.</span><span class="nx">childrenChanged</span><span class="p">(</span><span class="s2">"facts"</span><span class="p">)</span><span class="w">            </span><span class="c1">// ask the providers again</span>
+</pre></div>
+</div>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">groups</span></code></p></td>
+<td><p>the groups children are counted in, in order; the first one is the “done” share in <code class="docutils literal notranslate"><span class="pre">12</span> <span class="pre">/</span> <span class="pre">15</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">files</span></code></p></td>
+<td><p>path → its children in file order; <code class="docutils literal notranslate"><span class="pre">line</span></code> is 1-based, frontmatter counted</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">marks</span></code></p></td>
+<td><p>path → a mark on the file itself</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">actions</span></code></p></td>
+<td><p>shown on file and folder nodes (on hover); <code class="docutils literal notranslate"><span class="pre">run</span></code> gets the files below the node; <code class="docutils literal notranslate"><span class="pre">key</span></code> runs it on the active file</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>monsterbrain also asks again on every file change while the view is shown.
+The selected child is part of <code class="docutils literal notranslate"><span class="pre">get_view</span></code> as <code class="docutils literal notranslate"><span class="pre">child</span></code>.</p>
+</section>
+<section id="html-pages">
+<h3>HTML pages<a class="headerlink" href="#html-pages" title="Link to this heading">¶</a></h3>
+<p>HTML files are shown in a frame with <code class="docutils literal notranslate"><span class="pre">sandbox=&quot;allow-scripts</span> <span class="pre">allow-popups&quot;</span></code>.
+monsterbrain marks every start tag with <code class="docutils literal notranslate"><span class="pre">data-line</span></code> (the line it starts on, 0-based)
+and adds a bridge before the frame scripts:
+<code class="docutils literal notranslate"><span class="pre">window.mbx.path</span></code> (the page’s path), <code class="docutils literal notranslate"><span class="pre">window.mbx.call(id,</span> <span class="pre">method,</span> <span class="pre">…args)</span></code> and
+<code class="docutils literal notranslate"><span class="pre">window.mbx.on(id,</span> <span class="pre">event,</span> <span class="pre">cb)</span></code> – relayed by the window to the extension’s
+main part. Any script of the page can send such calls, so they reach only
+handlers registered with <code class="docutils literal notranslate"><span class="pre">ctx.handle(method,</span> <span class="pre">fn,</span> <span class="pre">{</span> <span class="pre">frames:</span> <span class="pre">true</span> <span class="pre">})</span></code>. Only pages of the working tree get the scripts, not the old side
+of a diff.</p>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+
+        <div class="related-pages">
+          <a class="next-page" href="decisions/index.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">All decisions</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="integrations/git.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Git</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026, danwos
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+<div class="dw-made-by">
+  <a href="https://danwos.dev" title="danwos.dev">
+    <img src="_static/img/logo.svg" alt="" width="22" height="31">
+    <span>a <b>danwos</b> project</span>
+  </a>
+</div>
+<div class="dw-legal">
+  <a href="https://danwos.dev/en/imprint/">Imprint</a>
+  <a href="https://danwos.dev/en/privacy/">Privacy</a>
+</div>
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Extensions (interface v0)</a><ul>
+<li><a class="reference internal" href="#manifest">Manifest</a></li>
+<li><a class="reference internal" href="#extension-points">Extension points</a><ul>
+<li><a class="reference internal" href="#views">Views</a></li>
+<li><a class="reference internal" href="#children-of-side-bar-views">Children of side bar views</a></li>
+<li><a class="reference internal" href="#html-pages">HTML pages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=8a448e45"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="_static/sphinx-data-viewer/jsonview.bundle.js?v=18cd53c5"></script>
+    <script src="_static/sphinx-data-viewer/jsonview_loader.js?v=f7ff7e7d"></script>
+    <script src="_static/sphinx-needs/libs/html/sphinx_needs_collapse.js?v=dca66431"></script>
+    <script data-root="article" defer="defer" src="https://deciwa.danwos.dev/js/0.2/deciwa.js"></script>
+    <script async="async" data-goatcounter="https://monsterbraindocs.goatcounter.com/count" src="https://gc.zgo.at/count.js"></script>
+    </body>
+</html>

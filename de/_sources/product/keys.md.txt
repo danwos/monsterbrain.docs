@@ -1,0 +1,32 @@
+# Keys
+
+monsterbrain is built for the keyboard. `F1` or `?` shows the keys in the app,
+including those of the installed extensions.
+The hints next to buttons and in fields can be hidden in the
+[settings](settings.md); tooltips keep them.
+
+```{figure} ../_static/screens/help.webp
+:alt: The help dialog with the keys
+
+The help dialog (`F1`).
+```
+
+| Key | Action |
+|---|---|
+| `Ctrl 1` / `Ctrl 2` / `Ctrl 3` / `Ctrl 4` / `Ctrl 5` | files / changes / backlog / concepts / facts |
+| `Ctrl K` | search files |
+| `j` `k` / `↓` `↑` | next / previous file (in changes: next change, in backlog: next pending item) |
+| `V` `S` `D` | view / source / diff |
+| `↑` `↓` / `←` `→` | JSON / YAML tree: move / close, open (`↓` `↑` then no longer change the file) |
+| `+` / `-` | JSON / YAML tree: open / close all; image: zoom in / out |
+| `Ctrl` wheel | image: zoom around the cursor (also pinch on the touchpad) |
+| `Ctrl F` | JSON / YAML tree: filter |
+| `Alt ←` / `Alt →` | back / forward – also the mouse's back and forward buttons |
+| `Ctrl` click | open in a new tab |
+| `Enter` | keep the preview tab |
+| `Ctrl Tab` | next tab (with `Shift`: previous) |
+| `Ctrl W` | close tab |
+| `Ctrl ,` | settings |
+| `Ctrl Shift A` | hand the file to Claude |
+| `Shift A` | facts: the extension's action for the active file (deciwa: approve all its facts) |
+| `F1` / `?` | help |

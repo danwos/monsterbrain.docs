@@ -1,0 +1,115 @@
+# Your folder
+
+monsterbrain works on any folder of files. It reads the folder as it is and
+imposes no structure ({need}`DEC_STRUCTURE_UNCHANGED`). Nothing is imported
+and nothing is stored besides the last opened folder and the settings – the
+files and Git are the truth.
+
+## What monsterbrain reads
+
+| What | Used for |
+|---|---|
+| Frontmatter (YAML at the top of a Markdown file) | the right panel: `summary`, `status`, `updated`, `tags`, `owner` |
+| Links between files | links and backlinks in the right panel, broken links as warnings |
+| Git | changed files in the tree and the change view, diffs, the date of the last change |
+| Concept folders | the concepts view (below) |
+| Backlog items | the backlog view (below) |
+
+Hidden files and installed dependencies (`node_modules` and the like) are
+never shown.
+
+## Conventions it understands
+
+monsterbrain grew out of a knowledge folder with a few conventions. They are
+optional – without them the matching features simply stay empty.
+
+- **Frontmatter with a `summary`** – a Markdown file without one gets a
+  warning. Folders for unchanged third-party material (`40_sources/`,
+  `50_assets/`) are not expected to have frontmatter.
+- **`updated`** – a date older than the last change in Git gets a warning.
+- **`[CHECK]` markers** – open questions in a text are counted as warnings
+  (replaced by deciwa questions once the deciwa extension is installed).
+- **Concepts** – open concepts in `<area>/10_concepts/<date>_<name>/concept.md`,
+  closed ones in `<area>/90_archive/concepts/`. Their frontmatter lists in
+  `results:` the files the concept produced; the concepts view shows them.
+- **Facts** – verified knowledge in `<area>/20_facts/`, one Markdown file per
+  topic, `_index.md` per folder as its index. The facts view lists these
+  files; an extension adds their single facts.
+- **Backlog** – larger future tasks and open questions in
+  `<area>/05_backlog/`, one Markdown file per item (`<project>_<topic>.md`),
+  `_index.md` as its index. The frontmatter says what an item is (`kind`:
+  `task` or `question`), its `project` and `status` (`open`, `concept`,
+  `done`, `discarded`), where it came from (`origin`) and the concept started
+  from it (`concept`). Done and discarded items move to
+  `<area>/90_archive/backlog/`. The backlog view lists them.
+
+
+```{figure} ../_static/screens/files-warnings.webp
+:alt: The right panel with warnings for a file
+
+What the conventions give you: links, backlinks and warnings in the right panel.
+```
+
+## Your folder and code repositories
+
+A knowledge folder usually spans all projects – it stands for a whole
+entity, not for one piece of software: you, a team, a company or anything
+else with a knowledge graph of its own. It holds the metadata and ideas of
+every project: what it is for, who is involved, what was decided and
+delivered. Tools and software that come out of the work are outputs with a
+repository of their own next to the folder.
+
+<figure class="diagram">
+<svg viewBox="0 0 800 430" role="img" aria-label="The knowledge folder holds rules, facts and concepts for all projects; each repository holds its own rules and specs and the actual implementation">
+<defs><marker id="dw-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" style="fill: var(--dw-muted)"/></marker></defs>
+<g class="box main"><rect x="10" y="20" width="360" height="390" rx="14"/></g>
+<text class="label" x="190" y="46">Knowledge folder</text>
+<text class="small" x="190" y="70">you, a team, a company …</text>
+<g class="box"><rect x="40" y="95" width="300" height="80" rx="10"/></g>
+<text class="strong" x="190" y="122">Rules and ideas</text>
+<text class="small" x="190" y="150">for all projects</text>
+<g class="box"><rect x="40" y="195" width="300" height="80" rx="10"/></g>
+<text class="strong" x="190" y="222">Facts</text>
+<text class="small" x="190" y="250">metadata of every project</text>
+<g class="box"><rect x="40" y="295" width="300" height="80" rx="10"/></g>
+<text class="strong" x="190" y="322">Concepts</text>
+<text class="small" x="190" y="350">the plan for a change</text>
+<g class="box warm"><rect x="470" y="20" width="320" height="250" rx="14"/></g>
+<text class="label" x="630" y="46">Repository</text>
+<text class="small" x="630" y="70">one per tool</text>
+<g class="box"><rect x="495" y="90" width="270" height="72" rx="10"/></g>
+<text class="strong" x="630" y="114">Own rules and specs</text>
+<text class="small" x="630" y="140">requirements and more, only for this tool</text>
+<g class="box"><rect x="495" y="178" width="270" height="78" rx="10"/></g>
+<text class="strong" x="630" y="200">Implementation</text>
+<text class="small" x="630" y="224">what is actually built</text>
+<text class="small" x="630" y="242">may deviate or lag behind</text>
+<g class="box warm"><rect x="470" y="330" width="320" height="60" rx="14"/></g>
+<text class="small" x="630" y="360">more repositories …</text>
+<g class="arrow"><path d="M342 135 L491 126"/></g>
+<text class="small" x="418" y="114">sets the frame</text>
+<g class="arrow"><path d="M342 335 C 420 335 420 217 491 217"/></g>
+<text class="small" x="420" y="360">implemented in</text>
+</svg>
+<figcaption>What goes where: the folder sets the frame, the repository holds what is built.</figcaption>
+</figure>
+
+| In the knowledge folder | In the repository |
+|---|---|
+| metadata and ideas of every project | the tool itself: code, build, tests |
+| rules and ideas that hold across projects | rules of its own that only concern this tool |
+| concepts – the plan for a change, also for a tool | requirements, specs and the like for this tool |
+| targets for a tool: what it should do and how it is built | the actual implementation |
+
+**The folder holds what spans projects.** Rules that hold for every project –
+naming, how a concept runs, how outputs are built – are written once in the
+folder. A repository can still have rules of its own and with them its own
+requirements, specs and the like, when they only concern this one tool. A
+concept that gets implemented creates or changes these elements in the
+matching repository as well and lists the repository under `results:`.
+
+**The repository holds what is built.** The folder can set targets and rules
+for a tool and how it is built; the repository holds the actual
+implementation. It may deviate on purpose – a decision made while building –
+or show an older state, because the folder already describes the next step.
+The folder says what is intended, the repository what exists.

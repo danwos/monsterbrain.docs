@@ -1,0 +1,23 @@
+# Core
+
+`src/main/core/` reads the folder and Git; nothing else in the app touches
+the disk directly.
+
+| File | Task |
+|---|---|
+| `files.ts` | the folder tree; hidden files and installed dependencies are left out |
+| `brain.ts` | one document: frontmatter, links and backlinks, markers, warnings |
+| `concepts.ts` | concepts from `10_concepts/` and `90_archive/concepts/`, their `results:` resolved to files |
+| `git.ts` | changed files since a point (`worktree`, `last`, `today`, `week`, `month`), a file's version before its last change, file contents at a revision, date of the last change |
+
+## Warnings
+
+| Warning | When |
+|---|---|
+| Frontmatter | the frontmatter cannot be parsed, or is missing (except in `40_sources/`, `50_assets/`) |
+| Summary | frontmatter without `summary` |
+| Link | a link points to a file that does not exist |
+| Updated | `updated` is older than the last change in Git |
+| Marker | open `[CHECK]` markers |
+
+The file watcher tells the UI about every change; views reload what they show.

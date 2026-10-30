@@ -1,0 +1,23 @@
+# Development aids
+
+Environment variables for screenshots, tests and a second instance:
+
+| Variable | Does |
+|---|---|
+| `MB_SCREENSHOT=<file.png>` | saves the window after load and quits |
+| `MB_HASH=mode=changes&open=<path>` | sets the start state (`help` opens the help dialog) |
+| `MB_THEME=light\|dark` | forces a theme |
+| `MB_USER_DATA=<dir>` | runs a second, separate instance (use another `MB_MCP_PORT`) |
+| `MB_MCP_PORT=<port>` | port of the MCP server |
+| `MB_ACTION_DEV=1` | `POST /action` on the MCP port triggers `Ctrl Shift A` without the keyboard |
+| `MB_SHOT_DIR=<dir>` | saves the window after every MCP command |
+
+`--root=<folder>` opens a folder for one run without remembering it.
+
+## Screenshots for these docs
+
+`scripts/docs-screens.sh` takes every picture in these docs from the example
+folder in `docs/_example/` – `brain/` is committed into a fresh Git
+repository, `changes/` lies on top as the agent's uncommitted work. It needs
+a built app and ImageMagick; with names as arguments it takes only those
+pictures.

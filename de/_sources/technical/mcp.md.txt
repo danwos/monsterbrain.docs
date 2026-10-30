@@ -1,0 +1,73 @@
+# MCP and agent actions
+
+## MCP server
+
+`src/main/mcp.ts` serves MCP over Streamable HTTP at
+`http://127.0.0.1:4340/mcp` – local only, port via `MB_MCP_PORT`. The tools
+act on the window through the same state the UI uses; the user-facing list is
+in [Claude Code](../integrations/claude-code.md). Extensions register further
+tools; their description names the extension.
+
+## Agent actions through the session's socket
+
+`src/main/sessions.ts` hands actions to running Claude Code sessions – the
+desktop app's Code tab and the terminal alike. Behaviour for the user:
+[Claude Code](../integrations/claude-code.md). Decided:
+{need}`DEC_AGENT_SOCKET`, {need}`DEC_SESSION_BY_CONCEPT`.
+
+```{prop} Agent actions go through the session's messaging socket
+:id: PROP_AGENT_SOCKET
+:status: approved
+:reason: Works in the desktop app, where channels are not available, and needs no start script or flag. Tested with Claude Code 2.1.309 on Linux.
+:alternatives: channels only (terminal); a deep link per action (prefilled only, a new session each time); an MCP tool Claude would have to poll.
+```
+
+- **Registry.** Every local session writes `~/.claude/sessions/<pid>.json`:
+  `sessionId`, `cwd`, `messagingSocketPath`, `name`, `status` (`idle` or
+  busy), `entrypoint` (`claude-desktop` for the desktop app), `kind`,
+  `updatedAt`. monsterbrain keeps the `interactive` ones whose process lives.
+- **Message.** One JSON line into the socket,
+  `{"type":"user","message":{"role":"user","content":"…"}}`, then the
+  connection closes; the socket answers nothing. An auth line
+  `{"type":"auth","token":"…"}` may come first – optional on Linux and
+  macOS, required on native Windows, where monsterbrain has no token yet.
+- **Delivery.** An idle session starts a turn; a busy one reads the message
+  between two tool calls. The receiving session labels it as coming from
+  another session.
+- **Undocumented.** The registry file and the message line come from Claude
+  Code's own help text, not from its docs ({need}`Q_SOCKET_UNDOCUMENTED`).
+  If a send fails, monsterbrain offers the dialog for a new session.
+
+```{prop} The session that works on the concept gets the action
+:id: PROP_SESSION_BY_CONCEPT
+:status: approved
+:reason: Several sessions often work in the same folder, one per concept; the one that did the concept's work has its context.
+:alternatives: the idle session first (the first prototype – actions landed in the wrong session); always ask; a session claims a concept through an MCP tool.
+```
+
+- The focus of an action is its concept folder – named in meta `concept`,
+  else the open concept its file (meta `path`) lies in or lists under
+  `results:`, so `Ctrl Shift A` and extensions need not name it – else the
+  file itself.
+- For each candidate monsterbrain reads its transcript,
+  `~/.claude/projects/*/<sessionId>.jsonl`, and counts the session's own
+  tool calls (`tool_use` in assistant lines) whose input names the focus –
+  a concept folder by its name, a file by its folder and name
+  (`concept.md` alone is in every concept). Tool output (git
+  status, listings) does not count. Most calls wins; a few MB of transcript
+  take under 35 ms.
+- No session has worked on it: the pick remembered for the focus, the only
+  candidate, or a dialog with the session names (at most four) and *New
+  desktop session*.
+- New desktop session: `claude://code/new?folder=<abs>&q=<prompt>` – the
+  desktop app asks to confirm the folder, the prompt (at most 14,000
+  characters) is only filled in. Claude desktop 4.29.0 on Linux saves the
+  folder's trust but still starts the session in a scratch folder
+  (`~/.config/Claude/scratch-workspaces/…`) – a bug of the desktop app;
+  monsterbrain's link follows its docs.
+- New terminal session: monsterbrain notes the sessions it knows, opens
+  `x-terminal-emulator` in the folder with `claude` and polls the registry
+  every second for a new session for the folder (up to two minutes); the
+  request goes into its socket. A terminal session registers like a desktop
+  one (`entrypoint: cli`), within about a second. Claude Code channels are
+  no longer used.

@@ -1,0 +1,45 @@
+# Facts
+
+`Ctrl 5` lists the folder's facts: every file in a `20_facts/` folder, grouped
+by the folders below it. The folder indexes (`_index.md`) are left out – they
+only list the files.
+
+On its own monsterbrain shows the files. An extension fills them with their
+single facts and their state; with [deciwa](../integrations/deciwa.md) every
+list item, table row and free paragraph is one fact, and you approve it right
+there.
+
+```{figure} ../_static/screens/facts.webp
+:alt: The facts view: counts and filters on top, folders and files with bars, the facts of one file
+
+With deciwa: the facts of the company profile – two changed since they were approved, and so did the file as a whole.
+```
+
+## What you see
+
+| Part | |
+|---|---|
+| Head | number of facts and how many are in each group, as one bar |
+| Filter | *all*, one group (e.g. *open* or *stale*), or *changed* – the files in the change view |
+| Folder, file | a bar with the shares of the groups and `approved / all`; the file's mark when it was approved as a whole |
+| Fact | the first words, the heading it stands under in grey; the dot shows its group |
+
+A click on a fact opens its file at that fact and hands it to the extension –
+deciwa switches to review mode and selects it, so `a` approves it. `j` `k`
+step through the files of the view.
+
+```{figure} ../_static/screens/facts-review.webp
+:alt: A fact selected in the facts view, shown in review mode with the deciwa card
+
+A click on a fact: the file opens there, deciwa shows its card – here with an open question.
+```
+
+`✓` on a file or folder (shown on hover) runs the extension's action for
+everything below it, after asking; `Shift A` does the same for the active file.
+With deciwa it approves every fact that is not approved yet and the file as a
+whole – facts with an open question or job stay as they are.
+
+Claude sees the selected fact through `get_view` (`child`: file, id, label).
+
+Where `20_facts/` comes from: [Your folder](folders.md#conventions-it-understands).
+How an extension fills the view: [Extensions](../extensions.md#children-of-side-bar-views).

@@ -1,0 +1,33 @@
+# Backlog
+
+`Ctrl 3` lists the folder's backlog: the larger tasks for later and the open
+questions that are not part of any work yet. Most of them become a concept one
+day; the steps of a running concept stay in that concept. The **Backlog**
+button counts what is still pending – open items and those already taken up
+by a concept.
+
+```{figure} ../_static/screens/backlog.webp
+:alt: The backlog view: open items grouped by project, one item in a concept, an open question opened in the middle
+
+An open question of the tea shop; below it the task a concept already took up.
+```
+
+## What you see
+
+| Group | |
+|---|---|
+| Open | the items nobody works on yet, under one header per project |
+| In a concept | the items a concept took up, the project as a grey hint |
+| Closed | done and discarded items, also those in the archive – folded, a click on the header opens it |
+
+Each row shows a mark for what the item is – a square for a task, a round `?`
+for a question –, its title, its status when it is not open, and whether it
+changed. Hovering shows the summary, kind, creation date, where it came from,
+the concept started from it and the path. When the folder holds several
+areas, each area gets its own groups.
+
+A click opens the item in the preview tab, a double or `Ctrl` click in a tab
+of its own. `j` and `k` step through the pending items in the order of the
+view.
+
+Where items live and what their frontmatter holds: [Your folder](folders.md#conventions-it-understands).

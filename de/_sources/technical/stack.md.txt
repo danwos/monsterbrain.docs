@@ -1,0 +1,17 @@
+# Stack
+
+| | |
+|---|---|
+| App shell | Electron |
+| Language | TypeScript, one language for core and UI |
+| Build | electron-vite (Vite) |
+| UI | React |
+| Markdown | markdown-it, sanitised with DOMPurify |
+| Code | highlight.js |
+| Diffs | `diff` |
+| Frontmatter | `yaml` |
+| File watcher | chokidar |
+| MCP | `@modelcontextprotocol/sdk`, `zod` for tool input |
+| Fonts | Inter, Bricolage Grotesque, JetBrains Mono (bundled) |
+
+Look: the danwos tool UI kit, light and dark from the danwos tokens.

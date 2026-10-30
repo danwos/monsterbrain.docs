@@ -1,0 +1,145 @@
+# monsterbrain
+
+**A brain for you and your AI agents** – one window that shows a knowledge
+folder the way it is meant to be read: the file tree on the left, the file
+rendered in the middle, links and metadata on the right – and a change view
+that shows what your agents changed, rendered for the file type.
+
+```{figure} _static/screens/changes-markdown.webp
+:alt: The change view: changed files on the left, the rendered diff of a Markdown file in the middle, its metadata on the right
+
+The change view: what the agent changed in a Markdown file, rendered – changed paragraphs marked.
+```
+
+```{raw} html
+<figure class="video">
+<video src="_static/video/monsterbrain-product-en.mp4" poster="_static/video/monsterbrain-product-en.jpg" controls muted playsinline preload="metadata"></video>
+<figcaption>monsterbrain in a minute – on the example folder of these docs.</figcaption>
+</figure>
+```
+
+## Why monsterbrain
+
+AI agents write a lot, in many places and many formats: Markdown notes, HTML
+outputs, translations, code. Following their work means an editor for one
+file, a browser for the next, a diff tool for the third – and still missing
+what changed in between. monsterbrain puts all of it into one window.
+
+- **Everything rendered.** Markdown, HTML, `.po` translations, code, images
+  and PDFs show the way they are meant to be read, not as raw text.
+- **See what changed.** The change view lists every file changed since a
+  chosen point and opens its diff – rendered before and after, not only text.
+- **The folder stays yours.** monsterbrain reads plain files and Git. No
+  database, no import, no structure it forces on you
+  ({need}`DEC_STRUCTURE_UNCHANGED`).
+- **Claude in the loop.** Claude opens files, highlights passages and shows
+  its changes in the app; the app hands work back to Claude
+  ({need}`DEC_CLAUDE_MCP`).
+- **Reviews where you read.** With [deciwa](integrations/deciwa.md) you give
+  feedback right on the rendered file.
+
+## What you can do
+
+| | |
+|---|---|
+| **Read the folder** | tree, tabs, views per file type, view / source / diff – [Files](product/files.md) |
+| **Check the metadata** | frontmatter, links and backlinks, and warnings like broken links or missing summaries – [Files](product/files.md#the-right-panel) |
+| **Collect what comes next** | future tasks and open questions per project, until a concept takes them up – [Backlog](product/backlog.md) |
+| **See what changed** | everything since the last commit, today, this week or this month – [Changes](product/changes.md) |
+| **Follow concepts** | all concepts by title, with their folder and the files they produced – [Concepts](product/concepts.md) |
+| **Work with Claude** | Claude steers the window, the window hands work to Claude – [Claude](product/claude.md) |
+| **Extend it** | extensions add views, panels and commands – [Extensions](extensions.md) |
+
+## How a session goes
+
+1. **Open your folder** – monsterbrain opens the last one, by default `~/brain`.
+2. **Let the agents work** – Claude or another agent changes files in the folder.
+3. **See what changed** – `Ctrl 2` lists the changes; `j` and `k` step
+   through them, each diff rendered for its type.
+4. **Review** – read, give feedback with deciwa, open the file in your editor
+   where you want to change it yourself.
+5. **Hand back** – Claude picks up the feedback and shows its next changes in
+   the app.
+
+monsterbrain shows; it does not edit and keeps no state of its own about what
+you did ({need}`DEC_NO_INTERACTION_STATE`).
+
+| Not monsterbrain | Who does it |
+|---|---|
+| Editing files | your editor, your agents |
+| Review, approval, "seen" and "done" | [deciwa](https://deciwa.danwos.dev) |
+| Testing code against decisions | quawa, normal tests |
+| Managing facts and generating views from them | faktwerk |
+
+## Where it runs
+
+monsterbrain is a prototype and not freely available yet.
+
+| | Status |
+|---|---|
+| Linux desktop | prototype, in daily use |
+| Windows, macOS | later – installers with electron-builder |
+| Server mode in the browser, for teams | later |
+
+What comes when: [Roadmap](product/roadmap.md). How monsterbrain is built:
+[Technical overview](technical/index.md).
+
+```{toctree}
+:caption: Product
+:maxdepth: 2
+:hidden:
+
+What monsterbrain is <self>
+tour
+product/install
+product/folders
+product/files
+product/backlog
+product/changes
+product/concepts
+product/facts
+product/claude
+product/keys
+product/settings
+product/roadmap
+```
+
+```{toctree}
+:caption: Integrations
+:maxdepth: 2
+:hidden:
+
+integrations/index
+integrations/claude-code
+integrations/deciwa
+integrations/git
+```
+
+```{toctree}
+:caption: Extensions
+:hidden:
+
+extensions
+```
+
+```{toctree}
+:caption: Decisions
+:hidden:
+
+decisions/index
+```
+
+```{toctree}
+:caption: Technical details
+:maxdepth: 2
+:hidden:
+
+technical/index
+technical/stack
+technical/core
+technical/bridge
+technical/mcp
+technical/dev-aids
+technical/working
+technical/questions
+```

@@ -1,0 +1,31 @@
+# Technical overview
+
+monsterbrain is an Electron app in TypeScript ({need}`DEC_ELECTRON`). Files
+and Git are the truth; there is no database
+({need}`DEC_NO_INTERACTION_STATE`).
+
+| Part | Runs in | Where | Task |
+|---|---|---|---|
+| [core](core.md) | main process | `src/main/core/` | folder tree, frontmatter, links and backlinks, concepts, Git status and diffs, file watcher |
+| [bridge](bridge.md) | main process | `src/main/index.ts`, `src/preload/` | IPC API for the UI, protocol `mb://` |
+| [MCP](mcp.md) | main process | `src/main/mcp.ts`, `src/main/sessions.ts` | MCP server for Claude, agent actions into Claude Code sessions |
+| [extensions](../extensions.md) | main process and renderer | `src/main/extensions.ts`, `src/renderer/src/extensions.ts` | extension host v0 |
+| ui | renderer | `src/renderer/` | React; views per file type, diff views, panels |
+| shared | both | `src/shared/` | types and path helpers |
+
+The UI talks to core only through one typed API, so a later server mode can
+serve the same UI in a browser.
+
+```{graphviz}
+digraph parts {
+  rankdir=LR; bgcolor=transparent;
+  node [shape=box, style="rounded,filled", fillcolor="#EFE4D4", fontname="Helvetica", fontsize=10];
+  edge [color="#5B6470", arrowsize=0.7];
+  folder [label="folder + Git", fillcolor="#9FE3D9"];
+  claude [label="Claude Code", fillcolor="#F6C9BF"];
+  folder -> core -> bridge -> ui;
+  claude -> mcp [dir=both];
+  mcp -> bridge;
+  extensions -> bridge; extensions -> ui;
+}
+```

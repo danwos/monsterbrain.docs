@@ -1,0 +1,131 @@
+# Claude Code
+
+## MCP – Claude steers the window
+
+While the app runs it serves MCP at `http://127.0.0.1:4340/mcp` (Streamable
+HTTP, local only; another port via `MB_MCP_PORT`). Register it once:
+
+```console
+$ claude mcp add --scope user --transport http monsterbrain http://127.0.0.1:4340/mcp
+```
+
+| Tool | Does |
+|---|---|
+| `get_view` | folder, mode, active file, open tabs, view, selected text; in a JSON / YAML tree the selected node's JSON Pointer |
+| `open_file` | open a file (preview tab, or its own tab with `new_tab`), optional view and a passage to highlight – for JSON and YAML also a JSON Pointer (`/colors/primary`), which selects that node in the tree |
+| `show_changes` | switch to the change view, return the changed files |
+| `show_diff` | open the diff of one file |
+| `open_folder` | open another folder |
+
+Extensions add tools (deciwa: `deciwa_feedback`, `deciwa_show`). If the app
+is not running, Claude Code reports the server as not connected.
+
+## Agent actions – the window hands work to Claude
+
+Actions reach a Claude Code session that runs on this computer – in the Code
+tab of the Claude desktop app or in a terminal. Nothing to set up: every
+session announces itself and takes messages through a local socket
+({need}`DEC_AGENT_SOCKET`).
+
+Which session gets an action:
+
+1. Only sessions whose folder contains the open folder (or lies inside it)
+   come into question.
+2. Of those, the session that **works on the action's concept** – it read,
+   edited or committed in the concept's folder (for a backlog task or a file
+   outside a concept: in that file). Most work wins
+   ({need}`DEC_SESSION_BY_CONCEPT`).
+3. No session has worked on it yet: the only one gets it; with several,
+   monsterbrain asks which one, by the session's name. It remembers the
+   choice until the app restarts.
+4. No session at all: monsterbrain offers **Open in Claude desktop** – a new
+   desktop session in the folder with the request filled in; you confirm the
+   folder and send it – or **Start in terminal**: a terminal opens in the
+   folder with `claude`, and as soon as that session has registered (up to
+   two minutes) monsterbrain sends the request into it (Linux for now).
+
+   Known problem (Claude desktop 4.29.0, Linux): the desktop app takes the
+   folder and saves your confirmation, but starts the new session in an empty
+   scratch folder. Pick the folder in the new session before you send.
+
+```{graphviz}
+digraph agent_action {
+  bgcolor=transparent; nodesep=0.3; ranksep=0.35;
+  node [shape=box, style="rounded,filled", fillcolor="#EFE4D4", fontname="Helvetica", fontsize=10];
+  edge [color="#5B6470", arrowsize=0.7, fontname="Helvetica", fontsize=9];
+  click [label="click or key in monsterbrain", fillcolor="#9FE3D9"];
+  folder [label="sessions whose folder\nmatches the open folder", shape=diamond, style=filled];
+  worked [label="has one worked on\nthe concept / file?", shape=diamond, style=filled];
+  picked [label="picked one for it before?", shape=diamond, style=filled];
+  count [label="only one session?", shape=diamond, style=filled];
+  ask [label="you pick a session\n(remembered)"];
+  socket [label="message into the session's socket", fillcolor="#F6C9BF"];
+  terminal [label="new terminal session in the folder,\nthe request goes to its socket", fillcolor="#F6C9BF"];
+  desktop [label="new desktop session\n(request filled in, you send it)"];
+  none [label="you choose: Open in Claude desktop\nor Start in terminal"];
+  click -> folder;
+  folder -> worked [label=" some"];
+  folder -> none [label=" none"];
+  worked -> socket [label=" yes – most work"];
+  worked -> picked [label=" no"];
+  picked -> socket [label=" yes"];
+  picked -> count [label=" no"];
+  count -> socket [label=" yes"];
+  count -> ask [label=" no"];
+  ask -> socket;
+  ask -> desktop [label=" new session"];
+  socket -> none [label=" not taken", style=dashed];
+  none -> desktop [label=" desktop"];
+  none -> terminal [label=" terminal"];
+}
+```
+
+The receiving Claude sees the action as a message from another session,
+wrapped in `<monsterbrain action="…" path="…" concept="…">`, with the note
+that you clicked it in monsterbrain. A session that bypasses permission
+prompts may hold such a message until you allow it (setting
+`crossSessionInbound`).
+
+:::{note}
+monsterbrain finds sessions and sends to them through an interface of
+Claude Code that is not documented: the session list in
+`~/.claude/sessions/` and the message format of its socket. A Claude Code
+update may change it; then actions fall back to the dialog
+({need}`Q_SOCKET_UNDOCUMENTED`). Details: [MCP and agent actions](../technical/mcp.md).
+:::
+
+`Ctrl Shift A` sends "explain this file" (with the selected text).
+
+The **Claude button** in the head of the file is a split button. Its left
+part is an extension's main entry – deciwa: *Inform Claude*; without one the
+whole button reads *Claude ▾*. `▾` opens the menu:
+
+- **Implement concept** – for a file in the folder of an open concept with
+  open tasks (not for files the concept only lists under `results:`):
+  Claude does every unticked item of the concept's `## Tasks` list, in order,
+  ticks each and commits after every step. Ideas, notes and open questions
+  elsewhere in the concept are not tasks. A task that needs you – an answer,
+  a review, a restart to test – ends the run. The menu shows how many tasks
+  are open, their list on hover. With deciwa Claude first reads the review
+  of `concept.md` and skips the tasks you rejected.
+- **Close concept** – the click is your approval: Claude sets
+  `status: approved` and closes the concept with the skill `close-concept`.
+  monsterbrain asks first.
+- **Discard concept** – monsterbrain itself sets `status: discarded` (after
+  asking); nothing is promoted, the folder stays. A discarded concept counts
+  as closed.
+- **Implement task** – for an open backlog task (`05_backlog/`, `status:
+  open`): Claude first checks that the task is clear and asks you before it
+  changes anything; a task too big for one go it proposes as a concept. It
+  does not close the item. With deciwa it reads the review of the item
+  first.
+- **Close task** (or **Close question**) – Claude sets the item to `done`
+  and moves it to `90_archive/backlog/`. monsterbrain asks first.
+- **Discard task** (or **Discard question**) – not wanted any more: Claude
+  sets the item to `discarded` and moves it to `90_archive/backlog/`, like
+  a discarded concept never done. monsterbrain asks first.
+- **Message to Claude …** – a free text, sent with the open file, its
+  concept and the passage selected when you opened the menu as context.
+  `Ctrl Enter` sends.
+
+Actions are only ever started by a click or key.

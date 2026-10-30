@@ -1,0 +1,21 @@
+# Bridge
+
+The UI runs in Electron's renderer and reaches core only through the bridge.
+
+## IPC API
+
+`src/preload/` exposes one typed API as `window.mb`; `src/main/index.ts`
+answers it. The same API is meant to run over HTTP in a later server mode.
+
+## Protocol `mb://`
+
+Files reach the renderer through a custom protocol, so HTML, images and PDFs
+load like from a web server:
+
+| URL | Serves |
+|---|---|
+| `mb://file/<path>` | a file of the open folder |
+| `mb://git/<rev>/<path>` | a file at a Git revision (the old side of a diff) |
+| `mb://ext/<id>/<path>` | a file of an extension |
+
+HTML files are shown in a sandboxed frame.

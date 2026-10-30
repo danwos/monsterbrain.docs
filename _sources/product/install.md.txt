@@ -1,0 +1,37 @@
+# Install and start
+
+:::{admonition} Prototype – not available yet
+:class: status-draft
+monsterbrain is a prototype in daily use at danwos. It is not freely
+available yet: there are no installers, and its repository is private. The
+steps below are for those who already have access.
+:::
+
+monsterbrain is built from its repository.
+
+```console
+$ npm install
+$ npx install-electron   # only if npm skipped Electron's download
+$ npm run build
+$ npx electron .
+```
+
+Development with hot reload: `npm run dev`.
+
+## Start from the app menu (Linux)
+
+`scripts/install-desktop-entry.sh` adds monsterbrain to the app menu.
+
+Ubuntu 24.04 and later restrict unprivileged user namespaces, which
+Electron's sandbox needs; started from the menu, Electron then aborts with
+"SUID sandbox helper binary … not configured correctly". Fix it once with an
+AppArmor profile `/etc/apparmor.d/monsterbrain` for
+`node_modules/electron/dist/electron` (`flags=(unconfined)`, `userns,`) – the
+same kind of profile Ubuntu ships for VS Code and Obsidian – loaded with
+`sudo apparmor_parser -r /etc/apparmor.d/monsterbrain`. A later installer will
+set this up itself.
+
+## Which folder opens
+
+monsterbrain opens the last folder, otherwise `~/brain`.
+`--root=<folder>` opens another folder for one run without remembering it.

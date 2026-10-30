@@ -1,0 +1,133 @@
+# Files
+
+`Ctrl 1` shows the folder: the tree on the left, the open files in the
+middle, the active file's metadata on the right ({need}`DEC_LAYOUT`).
+
+```{figure} ../_static/screens/files-markdown.webp
+:alt: A Markdown file in the files view: tree left, rendered file middle, metadata right
+
+A Markdown file: the tree marks changed files, the right panel shows links, warnings and frontmatter.
+```
+
+## The tree
+
+The tree marks changed files and counts the changes per folder. `Ctrl K`
+searches files by name.
+
+## Tabs
+
+A click opens a file in the **preview tab**, which the next file replaces.
+`Enter` keeps it; `Ctrl` click opens a file in its own tab.
+`Ctrl Tab` switches tabs, `Ctrl W` closes one.
+
+## Back and forward
+
+A link or a picture clicked in a rendered file opens in the same tab. Like
+in a browser, **←** and **→** next to the path go back and forward – also
+`Alt ←` / `Alt →` and the back and forward buttons of the mouse. Back
+returns to the view and the place you scrolled to. Each tab has its own
+history; files opened from the tree or with `j` / `k` replace the preview
+tab and are not part of it. A jump to a heading of the same file – from the
+table of contents or a `#` link – is part of it too.
+
+## Table of contents
+
+A rendered Markdown file with three or more headings shows its headings
+`h1` to `h3` left of the text. A click jumps to the heading; back returns
+to where you were reading. The entry of the section you are reading is
+marked. When the window has no room beside the text, the list folds into
+**☰** at the top left of the text and opens over it. **☰** next to
+**Open ↗** and the [settings](settings.md) switch it on and off.
+
+```{figure} ../_static/screens/files-toc.webp
+:alt: A concept with its table of contents left of the text, the section being read marked
+
+The table of contents beside a concept.
+```
+
+## Views per file type
+
+Every file has up to three views: **view** (`V`), **source** (`S`) and
+**diff** (`D`, when the file changed).
+
+| Type | View |
+|---|---|
+| Markdown | rendered; links open inside the app |
+| HTML | live in a sandboxed frame |
+| `.po` translations | table: source, translation, status |
+| JSON, YAML | tree; source with syntax highlighting |
+| Code | syntax highlighting |
+| Images | fitted to the window, zoom (see below) |
+| PDF | preview |
+
+JSON and YAML show as a tree: objects and arrays fold, with the number of
+keys or items; strings, numbers, booleans and `null` each have their colour,
+hex colours a small swatch. The tree opens two levels deep. `↑` `↓` move
+the selection, `←` `→` close and open the selected node, `+` and `-` open
+and close all. `Ctrl F` filters by key and value and keeps the path to each
+hit open. The bar above the tree shows the JSON Pointer of the selected node
+(`/colors/primary`, `/steps/2`); **Copy** puts it on the clipboard. An
+invalid file shows the error with line and column above its source. Of a
+YAML file with several documents, the tree shows the first.
+
+A click on a picture in a rendered file opens the picture as its own file
+(`Ctrl` click: in a new tab). With deciwa's review mode on, a plain click
+reviews the picture and `Ctrl` click opens it. A picture of an older
+version whose file is gone opens in the diff, read-only.
+
+An image opens fitted to the window. `+` and `-`, `Ctrl` and the mouse
+wheel, or a pinch on the touchpad zoom – around the cursor; **Fit** and
+**1:1** in the bar above it fit the image or show its real pixels. A zoomed
+image moves by dragging. The bar shows its size in pixels and the file
+size.
+
+```{figure} ../_static/screens/files-image.webp
+:alt: An image in the files view, fitted to the window, with the zoom bar above it
+
+An image fitted to the window – zoom, **Fit** and **1:1** in the bar above it; **←** **→** next to the path go back and forward.
+```
+
+monsterbrain only shows. To change a file, open it in your editor
+(**Open ↗**).
+
+```{figure} ../_static/screens/files-html.webp
+:alt: An HTML page rendered live in the files view
+
+HTML is shown live, as in a browser.
+```
+
+```{figure} ../_static/screens/files-po.webp
+:alt: A .po file shown as a table of source and translation
+
+A translation as a table – filter for changed, missing or fuzzy entries.
+```
+
+```{figure} ../_static/screens/files-code.webp
+:alt: A Python file with syntax highlighting
+
+Code with syntax highlighting.
+```
+
+```{figure} ../_static/screens/files-source.webp
+:alt: The source view of a Markdown file
+
+**Source** (`S`) shows the file as it is, frontmatter included.
+```
+
+## The right panel
+
+It follows the active tab:
+
+- **Frontmatter** evaluated – summary, status, updated, tags, owner.
+- **Link graph** – links from the file on one side, backlinks on the other;
+  broken links in red.
+- **Check** – what needs attention: no frontmatter, no summary, broken links,
+  an `updated` older than the last change, open `[CHECK]` markers.
+- **Extensions** add their own sections, e.g. the review of the file with
+  deciwa.
+
+```{figure} ../_static/screens/files-warnings.webp
+:alt: The right panel with a link graph and a broken link in the check section
+
+A broken link shows red in the link graph and as a warning under **Check**.
+```
